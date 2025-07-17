@@ -1,6 +1,7 @@
 package com.example.userservice.service;
 
 import com.example.userservice.model.User;
+import com.example.userservice.model.Provider;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,5 +89,27 @@ public class UserService {
             return true;
         }
         return false;
+    }
+    
+    public UserDto createOAuth2User(String email, String name, Provider provider) {
+        if (userRepository.existsByEmail(email)) {
+            throw new RuntimeException("Email already exists");
+        }
+        
+        User user = new User(email, name, null); // OAuth2 users don't have password
+        user.setProvider(provider);
+        user.setEmailVerified(true); // OAuth2 users are email verified
+        User saved = userRepository.save(user);
+        return new UserDto(saved);
+    }
+    
+    public void updateLoginInfo(Long userId) {
+        Optional<User> userOpt = userRepository.findById(userId);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            user.setLastLoginAt(LocalDateTime.now());
+            user.setLoginCount(user.getLoginCount() + 1);
+            userRepository.save(user);
+        }
     }
 }

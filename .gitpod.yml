@@ -1,0 +1,11 @@
+ports:
+  - port: 8080
+    onOpen: open-preview
+    visibility: public
+    description: User Service API
+
+tasks:
+  - name: Start Docker Compose
+    command: |
+      cd User
+      docker-compose up -d
