@@ -1,0 +1,61 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: user-service
+    
+  # Axon Configuration
+  axon:
+    axonserver:
+      servers: localhost:8124
+    eventhandling:
+      processors:
+        default:
+          mode: tracking
+          source: eventStore
+    
+  # GraphQL Configuration  
+  graphql:
+    graphiql:
+      enabled: true
+    websocket:
+      path: /subscriptions
+      
+  # Kafka Configuration
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: user-service
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.example.userservice.domain.event"
+        
+  # Database Configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/userdb
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+      
+# JWT Configuration
+jwt:
+  secret: your-secret-key
+  access-token-expiration: 3600000
+  refresh-token-expiration: 2592000000
+
+# Google OAuth
+google:
+  client-id: your-google-client-id

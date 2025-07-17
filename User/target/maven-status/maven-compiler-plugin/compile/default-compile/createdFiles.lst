@@ -1,0 +1,16 @@
+com/example/userservice/model/User.class
+com/example/userservice/model/Role.class
+com/example/userservice/repository/UserRepository.class
+com/example/userservice/UserServiceApplication.class
+com/example/userservice/controller/UpdateUserRequest.class
+com/example/userservice/config/SecurityConfig.class
+com/example/userservice/dto/CreateUserRequest.class
+com/example/userservice/controller/UserController.class
+com/example/userservice/model/Provider.class
+com/example/userservice/controller/AuthResponse.class
+com/example/userservice/controller/LoginRequest.class
+com/example/userservice/dto/AuthResponse.class
+com/example/userservice/dto/LoginRequest.class
+com/example/userservice/service/UserService.class
+com/example/userservice/dto/UserDto.class
+com/example/userservice/controller/CreateUserRequest.class
