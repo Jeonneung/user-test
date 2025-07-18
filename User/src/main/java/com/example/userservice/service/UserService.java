@@ -101,4 +101,19 @@ public class UserService {
             userRepository.save(user);
         }
     }
+    
+    public Optional<UserDto> authenticateUser(String email, String password) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            if (passwordEncoder.matches(password, user.getPassword())) {
+                // Update login info
+                user.setLastLoginAt(LocalDateTime.now());
+                user.setLoginCount(user.getLoginCount() + 1);
+                userRepository.save(user);
+                return Optional.of(new UserDto(user));
+            }
+        }
+        return Optional.empty();
+    }
 }

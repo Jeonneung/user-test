@@ -1,0 +1,12 @@
+/workspace/user-test/Gateway/src/main/java/com/example/gateway/controller/ProxyController.java
+/workspace/user-test/Gateway/src/main/java/com/example/gateway/dto/response/AuthResponse.java
+/workspace/user-test/Gateway/src/main/java/com/example/gateway/controller/AuthController.java
+/workspace/user-test/Gateway/src/main/java/com/example/gateway/config/DotenvConfig.java
+/workspace/user-test/Gateway/src/main/java/com/example/gateway/dto/request/CreateUserRequest.java
+/workspace/user-test/Gateway/src/main/java/com/example/gateway/dto/request/LoginRequest.java
+/workspace/user-test/Gateway/src/main/java/com/example/gateway/service/JwtService.java
+/workspace/user-test/Gateway/src/main/java/com/example/gateway/config/WebConfig.java
+/workspace/user-test/Gateway/src/main/java/com/example/gateway/config/SecurityConfig.java
+/workspace/user-test/Gateway/src/main/java/com/example/gateway/GatewayApplication.java
+/workspace/user-test/Gateway/src/main/java/com/example/gateway/dto/response/UserResponse.java
+/workspace/user-test/Gateway/src/main/java/com/example/gateway/service/AuthService.java

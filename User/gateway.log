@@ -1,0 +1,113 @@
+Picked up JAVA_TOOL_OPTIONS: -XX:+UseContainerSupport -XX:ActiveProcessorCount=1
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.example:user-service >----------------------
+[INFO] Building User Service 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:2.7.14:run (default-cli) > test-compile @ user-service >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ user-service ---
+[INFO] Copying 3 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.8.1:compile (default-compile) @ user-service ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 17 source files to /workspace/user-test/User/target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ user-service ---
+[INFO] skip non existing resourceDirectory /workspace/user-test/User/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.8.1:testCompile (default-testCompile) @ user-service ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] <<< spring-boot:2.7.14:run (default-cli) < test-compile @ user-service <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:2.7.14:run (default-cli) @ user-service ---
+[INFO] Attaching agents: []
+Picked up JAVA_TOOL_OPTIONS: -XX:+UseContainerSupport -XX:ActiveProcessorCount=1
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.14)
+
+Loaded 9 variables from .env file
+2025-07-18 03:05:59.611  INFO 149748 --- [           main] c.e.userservice.UserServiceApplication   : Starting UserServiceApplication using Java 21.0.7 on jeonneung-usertest-i7miuisf7wr with PID 149748 (/workspace/user-test/User/target/classes started by gitpod in /workspace/user-test/User)
+2025-07-18 03:05:59.613  INFO 149748 --- [           main] c.e.userservice.UserServiceApplication   : No active profile set, falling back to 1 default profile: "default"
+2025-07-18 03:06:00.157  INFO 149748 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-07-18 03:06:00.197  INFO 149748 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 34 ms. Found 1 JPA repository interfaces.
+2025-07-18 03:06:00.722  INFO 149748 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2025-07-18 03:06:00.731  INFO 149748 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-07-18 03:06:00.731  INFO 149748 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.78]
+2025-07-18 03:06:00.801  INFO 149748 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-07-18 03:06:00.801  INFO 149748 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1157 ms
+2025-07-18 03:06:01.053  INFO 149748 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-07-18 03:06:01.083  INFO 149748 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.15.Final
+2025-07-18 03:06:01.187  INFO 149748 --- [           main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2025-07-18 03:06:01.250  INFO 149748 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-07-18 03:06:01.327  INFO 149748 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-07-18 03:06:01.337  INFO 149748 --- [           main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+Hibernate: 
+    
+    drop table if exists users cascade
+Hibernate: 
+    
+    create table users (
+       id  bigserial not null,
+        active boolean,
+        created_at timestamp,
+        email varchar(255) not null,
+        email_verified boolean,
+        last_login_at timestamp,
+        login_count int4,
+        name varchar(255) not null,
+        password varchar(255),
+        provider varchar(255),
+        role varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    
+    alter table users 
+       add constraint UK_6dotkott2kjsp8vw4d0m25fb7 unique (email)
+2025-07-18 03:06:01.902  INFO 149748 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-07-18 03:06:01.909  INFO 149748 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-07-18 03:06:02.196  WARN 149748 --- [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 61c77cdf-16d3-45bf-8ac3-6f2000dd973c
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-07-18 03:06:02.262  INFO 149748 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4d142b53, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3bac86a3, org.springframework.security.web.context.SecurityContextPersistenceFilter@32ae11c9, org.springframework.security.web.header.HeaderWriterFilter@2bed5828, org.springframework.security.web.authentication.logout.LogoutFilter@68c47cf9, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@14980819, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3606eee9, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@128ca7af, org.springframework.security.web.session.SessionManagementFilter@1977b0df, org.springframework.security.web.access.ExceptionTranslationFilter@2041c9a3, org.springframework.security.web.access.intercept.AuthorizationFilter@2b9bbaa8]
+2025-07-18 03:06:02.367  WARN 149748 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-07-18 03:06:02.664  INFO 149748 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2025-07-18 03:06:02.672  INFO 149748 --- [           main] c.e.userservice.UserServiceApplication   : Started UserServiceApplication in 3.393 seconds (JVM running for 3.659)
+2025-07-18 03:08:33.508  INFO 149748 --- [nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-18 03:08:33.508  INFO 149748 --- [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-07-18 03:08:33.509  INFO 149748 --- [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-07-18 03:08:43.277  INFO 149748 --- [nio-8081-exec-2] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 220 ms
+2025-07-18 03:12:10.446  INFO 149748 --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-07-18 03:12:10.447  INFO 149748 --- [ionShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+Hibernate: 
+    
+    drop table if exists users cascade
+2025-07-18 03:12:10.454  INFO 149748 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-07-18 03:12:10.456  INFO 149748 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  06:13 min
+[INFO] Finished at: 2025-07-18T03:12:10Z
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:2.7.14:run (default-cli) on project user-service: Application finished with exit code: 143 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

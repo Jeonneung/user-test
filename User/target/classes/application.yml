@@ -1,30 +1,11 @@
 server:
-  port: 8080
+  port: 8082
   forward-headers-strategy: framework
 
 spring:
   application:
     name: user-service
     
-  # Security Configuration
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: ${GOOGLE_CLIENT_ID}
-            client-secret: ${GOOGLE_CLIENT_SECRET}
-            scope:
-              - email
-              - profile
-            redirect-uri: "${OAUTH_REDIRECT_URI:https://oauth.buildingbite.com/login/oauth2/code/google}"
-        provider:
-          google:
-            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
-            token-uri: https://oauth2.googleapis.com/token
-            user-info-uri: https://www.googleapis.com/oauth2/v2/userinfo
-            user-name-attribute: email
-        
   # Database Configuration
   datasource:
     url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/userdb}
@@ -40,8 +21,3 @@ spring:
         format_sql: true
     show-sql: true
       
-# JWT Configuration
-jwt:
-  secret: ${JWT_SECRET}
-  access-token-expiration: ${JWT_ACCESS_EXPIRATION:3600000}
-  refresh-token-expiration: ${JWT_REFRESH_EXPIRATION:2592000000}

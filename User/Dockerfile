@@ -1,18 +1,48 @@
-# Use OpenJDK 11 as base image
-FROM openjdk:11-jre-slim
+# Multi-stage build for User Service
+FROM maven:3.8.6-openjdk-11-slim AS build
 
 # Set working directory
 WORKDIR /app
 
-# Copy the built JAR file
-COPY target/user-service-1.0.0.jar app.jar
+# Copy pom.xml first to leverage Docker cache layers
+COPY pom.xml .
 
-# Expose port 8080
-EXPOSE 8080
+# Download dependencies
+RUN mvn dependency:go-offline -B
 
-# Create a non-root user
+# Copy source code
+COPY src ./src
+
+# Build the application
+RUN mvn clean package -DskipTests
+
+# Runtime stage
+FROM openjdk:11-jre-slim
+
+# Create app user for security
 RUN addgroup --system spring && adduser --system spring --ingroup spring
+
+# Set working directory
+WORKDIR /app
+
+# Copy the built jar from build stage
+COPY --from=build /app/target/*.jar app.jar
+
+# Copy environment configuration
+COPY .env* ./
+
+# Change ownership to spring user
+RUN chown -R spring:spring /app
+
+# Switch to non-root user
 USER spring:spring
 
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:8082/api/health || exit 1
+
+# Expose port
+EXPOSE 8082
+
 # Run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]

@@ -26,7 +26,12 @@
       "Bash(kubectl logs:*)",
       "Bash(kubectl get:*)",
       "Bash(kubectl rollout restart:*)",
-      "Bash(docker push:*)"
+      "Bash(docker push:*)",
+      "Bash(mv:*)",
+      "Bash(mkdir:*)",
+      "Bash(kill:*)",
+      "Bash(kubectl top:*)",
+      "Bash(git add:*)"
     ],
     "deny": []
   }
