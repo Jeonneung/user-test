@@ -8,8 +8,11 @@ A RESTful user management service with Google OAuth2 authentication, built with 
 - 👤 User Management (CRUD operations)  
 - 🐘 PostgreSQL Database
 - 🚀 Kubernetes Deployment
-- 🔒 JWT Token Support
+- 🔒 JWT Token Support (HttpOnly Cookies)
 - ☁️ Azure Cloud Integration
+- 🛡️ CSRF Protection
+- 🔑 Role-based Access Control
+- 📱 Environment-based Configuration (.env)
 
 ## Prerequisites
 
@@ -69,15 +72,23 @@ mvn spring-boot:run
 ## API Endpoints
 
 ### Authentication
-- `GET /api/auth/oauth2/user` - Get authenticated user info
-- `POST /api/users/register` - Register new user
-- `POST /api/users/login` - User login
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - User login  
+- `POST /api/auth/logout` - User logout
+- `POST /api/auth/refresh` - Refresh JWT token
+- `GET /api/auth/oauth2/user` - Get OAuth2 user info
+
+### OAuth2 Endpoints
+- `GET /oauth2/authorization/google` - Initiate Google OAuth2 login
+- `GET /api/auth/oauth2/success` - OAuth2 success callback
+- `GET /api/auth/oauth2/failure` - OAuth2 failure callback
 
 ### User Management
-- `GET /api/users` - List all users
-- `GET /api/users/{id}` - Get user by ID
-- `PUT /api/users/{id}` - Update user
-- `DELETE /api/users/{id}` - Delete user
+- `GET /api/users` - List all users (public)
+- `GET /api/users/{id}` - Get user by ID (authenticated)
+- `POST /api/users` - Create user (authenticated)
+- `PUT /api/users/{id}` - Update user (authenticated)
+- `DELETE /api/users/{id}` - Delete user (authenticated)
 
 ### Health Check
 - `GET /api/health` - Service health status
@@ -139,6 +150,87 @@ All sensitive data should be:
 - Added to `.gitignore`
 - Stored in environment variables
 - Managed via Kubernetes Secrets in production
+
+## Security Roadmap
+
+### 🔄 Current Implementation
+- ✅ JWT Authentication with HttpOnly Cookies
+- ✅ OAuth2 Integration (Google)
+- ✅ CSRF Protection
+- ✅ Role-based Access Control
+- ✅ Environment-based Configuration
+- ✅ Password Hashing (BCrypt)
+
+### 🚧 Planned Security Enhancements
+
+#### High Priority
+- [ ] **Password Strength Validation**
+  - Minimum 8 characters with complexity requirements
+  - Password history tracking
+  - Common password blacklist validation
+  
+- [ ] **Account Security**
+  - Account lockout after failed login attempts
+  - Login attempt rate limiting
+  - Suspicious activity detection
+  
+- [ ] **Token Management**
+  - Token blacklisting for logout
+  - Refresh token rotation
+  - Token revocation endpoint
+
+#### Medium Priority  
+- [ ] **API Rate Limiting**
+  - Request rate limiting per IP/user
+  - Brute force attack prevention
+  - API quota management
+  
+- [ ] **Audit & Monitoring**
+  - Authentication event logging
+  - Failed login attempt tracking
+  - User activity audit trail
+  
+- [ ] **Advanced Security**
+  - Multi-factor authentication (MFA)
+  - Email verification workflow
+  - Password reset functionality
+
+#### Low Priority
+- [ ] **Session Management**
+  - Concurrent session limiting
+  - Session timeout configuration
+  - Active session monitoring
+  
+- [ ] **Data Protection**
+  - Data encryption at rest
+  - PII data masking in logs
+  - GDPR compliance features
+
+### 🛠️ Implementation Notes
+
+**Password Strength Validation**
+```java
+// Planned implementation location: 
+// src/main/java/com/example/userservice/validation/PasswordValidator.java
+```
+
+**Account Lockout**
+```java
+// Planned implementation location:
+// src/main/java/com/example/userservice/security/AccountLockoutService.java
+```
+
+**Rate Limiting**
+```java
+// Planned implementation location:
+// src/main/java/com/example/userservice/security/RateLimitingFilter.java
+```
+
+**Token Blacklist**
+```java
+// Planned implementation location:
+// src/main/java/com/example/userservice/security/TokenBlacklistService.java
+```
 
 ## Contributing
 

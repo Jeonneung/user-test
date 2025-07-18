@@ -1,6 +1,6 @@
 ports:
   - port: 8080
-    onOpen: open-preview
+    onOpen: ignore
     visibility: public
     description: User Service API
 

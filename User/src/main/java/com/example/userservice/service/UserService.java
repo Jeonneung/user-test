@@ -23,6 +23,10 @@ public class UserService {
     
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     
+    public Optional<User> getUserEntityById(Long id) {
+        return userRepository.findById(id);
+    }
+    
     public List<UserDto> getAllUsers(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<User> users = userRepository.findAll(pageable);
@@ -49,21 +53,6 @@ public class UserService {
         User user = new User(email, name, passwordEncoder.encode(password));
         User saved = userRepository.save(user);
         return new UserDto(saved);
-    }
-    
-    public Optional<UserDto> authenticateUser(String email, String password) {
-        Optional<User> userOpt = userRepository.findByEmail(email);
-        if (userOpt.isPresent()) {
-            User user = userOpt.get();
-            if (passwordEncoder.matches(password, user.getPassword())) {
-                // Update login info
-                user.setLastLoginAt(LocalDateTime.now());
-                user.setLoginCount(user.getLoginCount() + 1);
-                userRepository.save(user);
-                return Optional.of(new UserDto(user));
-            }
-        }
-        return Optional.empty();
     }
     
     public Optional<UserDto> updateUser(Long id, String name, String email) {

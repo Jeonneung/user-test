@@ -1,16 +1,25 @@
 package com.example.userservice.controller;
 
 import com.example.userservice.dto.UserDto;
+import com.example.userservice.dto.request.CreateUserRequest;
+import com.example.userservice.dto.request.UpdateUserRequest;
+import com.example.userservice.dto.response.UserProfileResponse;
+import com.example.userservice.dto.response.PublicUserResponse;
+import com.example.userservice.dto.response.AdminUserResponse;
 import com.example.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
+@Validated
 public class UserController {
     
     @Autowired
@@ -22,11 +31,14 @@ public class UserController {
     }
     
     @GetMapping("/users")
-    public ResponseEntity<List<UserDto>> getUsers(
+    public ResponseEntity<List<PublicUserResponse>> getUsers(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         List<UserDto> users = userService.getAllUsers(page, size);
-        return ResponseEntity.ok(users);
+        List<PublicUserResponse> publicUsers = users.stream()
+                .map(user -> new PublicUserResponse(userService.getUserEntityById(user.getId()).get()))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(publicUsers);
     }
     
     @GetMapping("/users/{id}")
@@ -44,33 +56,25 @@ public class UserController {
     }
     
     @PostMapping("/users")
-    public ResponseEntity<?> createUser(@RequestBody CreateUserRequest request) {
+    public ResponseEntity<?> createUser(@Valid @RequestBody CreateUserRequest request) {
         try {
             UserDto user = userService.createUser(request.getEmail(), request.getName(), request.getPassword());
-            return ResponseEntity.ok(user);
+            UserProfileResponse profile = new UserProfileResponse(userService.getUserEntityById(user.getId()).get());
+            return ResponseEntity.ok(profile);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
     
-    @PostMapping("/auth/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        Optional<UserDto> userOpt = userService.authenticateUser(request.getEmail(), request.getPassword());
-        if (userOpt.isPresent()) {
-            // In real implementation, generate JWT token here
-            String mockToken = "mock-jwt-token-" + System.currentTimeMillis();
-            AuthResponse response = new AuthResponse(mockToken, userOpt.get());
-            return ResponseEntity.ok(response);
-        }
-        return ResponseEntity.badRequest().body(Map.of("error", "Invalid credentials"));
-    }
-    
     @PutMapping("/users/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UpdateUserRequest request) {
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody UpdateUserRequest request) {
         try {
             Optional<UserDto> user = userService.updateUser(id, request.getName(), request.getEmail());
-            return user.map(ResponseEntity::ok)
-                      .orElse(ResponseEntity.notFound().build());
+            if (user.isPresent()) {
+                UserProfileResponse profile = new UserProfileResponse(userService.getUserEntityById(user.get().getId()).get());
+                return ResponseEntity.ok(profile);
+            }
+            return ResponseEntity.notFound().build();
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
@@ -84,58 +88,4 @@ public class UserController {
         }
         return ResponseEntity.notFound().build();
     }
-}
-
-// Request DTOs
-class CreateUserRequest {
-    private String email;
-    private String name;
-    private String password;
-    
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-    
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
-}
-
-class LoginRequest {
-    private String email;
-    private String password;
-    
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-    
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
-}
-
-class UpdateUserRequest {
-    private String name;
-    private String email;
-    
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-}
-
-class AuthResponse {
-    private String token;
-    private UserDto user;
-    
-    public AuthResponse(String token, UserDto user) {
-        this.token = token;
-        this.user = user;
-    }
-    
-    public String getToken() { return token; }
-    public void setToken(String token) { this.token = token; }
-    
-    public UserDto getUser() { return user; }
-    public void setUser(UserDto user) { this.user = user; }
 }

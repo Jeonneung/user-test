@@ -12,8 +12,8 @@ spring:
       client:
         registration:
           google:
-            client-id: ${GOOGLE_CLIENT_ID:508154093017-k2kn01n8ji4pj8lbtmbt5a56n2o24kf2.apps.googleusercontent.com}
-            client-secret: ${GOOGLE_CLIENT_SECRET:your-google-client-secret}
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
             scope:
               - email
               - profile
@@ -42,6 +42,6 @@ spring:
       
 # JWT Configuration
 jwt:
-  secret: ${JWT_SECRET:your-secret-key-change-this}
+  secret: ${JWT_SECRET}
   access-token-expiration: ${JWT_ACCESS_EXPIRATION:3600000}
   refresh-token-expiration: ${JWT_REFRESH_EXPIRATION:2592000000}

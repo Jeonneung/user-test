@@ -47,6 +47,13 @@ src/main/resources/ssl/
 .env.production
 *.properties
 
+# Application properties with real secrets
+application-local.yml
+application-prod.yml
+application-*.yml
+!application.yml
+!application-dev.yml
+
 # Kubernetes secrets
 *secret*.yaml
 *Secret*.yaml
